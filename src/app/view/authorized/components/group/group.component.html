@@ -1,0 +1,45 @@
+<div class="card">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <form [formGroup]="groupForm" (ngSubmit)="addGroup()">
+        <input type="text" class="form-control" formControlName="name" placeholder="New Group">
+      </form>
+    </li>
+    <li class="list-group-item  list-group-item-action"
+        *ngFor="let group of groups"
+        [class.selected]="group === selectedGroup"
+        (click)="onSelect(group)"
+        optionLabel="group" >
+      <span>{{group.name}}</span>
+    </li>
+<!--    <p>Selected Group: {{selectedGroup ? selectedGroup.name : 'none'}}</p>-->
+  </ul>
+  <div *ngIf="selectedGroup">
+    <form [formGroup]="groupEditForm">
+    <div>
+      <label>id:
+        <input class="form-control" formControlName="id"  placeholder="id" disabled/>
+      </label>
+    </div>
+    <div>
+      <label>name:
+        <input  class="form-control" type="text"  formControlName="name"  placeholder="name"/>
+      </label>
+    </div>
+    <button (click)="deleteGroup(selectedGroup.id)"
+      type="button" class="btn btn-outline-danger">delete</button>
+    <button (click)="updateGroup()"
+      type="button" class="btn btn-outline-warning">save</button>
+    <button (click)="unselect()"
+      type="button" class="btn btn-outline-secondary">cancel</button>
+    </form>
+  </div>
+
+<!--    <label>-->
+<!--      Group Name:-->
+<!--      <input type="text" >-->
+<!--    </label>-->
+<!--    <button type="submit" [disabled]="!groupForm.valid">Submit</button>-->
+
+</div>
+

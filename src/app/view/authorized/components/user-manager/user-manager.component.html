@@ -1,0 +1,130 @@
+<div class="row">
+  <div class="col">
+    <button type="button" class="btn btn-primary"
+            (click)="add()">
+      <i class="pi pi-plus" *ngIf="!visible"></i>
+      <i class="pi pi-minus" *ngIf="visible"></i>
+    </button>
+
+    <!--    new user form-->
+    <form *ngIf="formNewUser&&visible" class="form-inline p-3" [formGroup]="formNewUser">
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputLogin" class="sr-only">Login</label>
+        <input formControlName="username" type="text"
+               class="form-control" id="inputLogin" placeholder="Login"
+        >
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputEmail" class="sr-only">Email</label>
+        <input formControlName="email" type="email"
+               class="form-control" id="inputEmail" placeholder="email@example.com"
+        >
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input formControlName="password" type="password"
+               class="form-control" id="inputPassword" placeholder="Password"
+        >
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputRole" class="sr-only">Role</label>
+        <input FormArrayName="role" disabled="disabled" type="text" class="form-control" id="inputRole"
+               placeholder="Role">
+      </div>
+      <button (click)="newUser()" [disabled]="formNewUser.invalid"
+              type="submit" class="btn btn-primary mb-2">Register User
+      </button>
+    </form>
+
+    <!--    edit user form-->
+    <div>
+      <app-avatar-cropper></app-avatar-cropper>
+      <form class="form-inline p-3" [formGroup]="formEditUser" (ngSubmit)="submit()">
+        <div class="input-group d-inline">
+          <div class="form-group mx-sm-3 mb-2" hidden>
+            <label for="inputIdEdit" class="sr-only">Id</label>
+            <input name="id" formControlName="id" class="form-control" id="inputIdEdit" placeholder="Id"/>
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="inputUsernameEdit" class="sr-only">Username</label>
+            <input name="username" formControlName="username"
+                   class="form-control" id="inputUsernameEdit" placeholder="Username"/>
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="inputEmailEdit" class="sr-only">Email</label>
+            <input name="email" formControlName="email"
+                   class="form-control" id="inputEmailEdit" placeholder="Email"/>
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="inputPasswordEdit" class="sr-only">Password</label>
+            <input name="password" formControlName="password"
+                   class="form-control" id="inputPasswordEdit" placeholder="Password"/>
+          </div>
+          <div class="form-group mx-sm-3 mb-2"
+               formArrayName="roles"
+               *ngFor="let item of formEditUser.get('roles').controls; let i = index;"
+          >
+            <label for="selectRoleEdit" class="sr-only">Role</label>
+            <select name="array" [formControlName]="i"
+                    class="form-control" id="selectRoleEdit" placeholder="Role">
+              <option value="ROLE_CLIENT" selected>USER</option>
+              <option value="ROLE_ADMIN">ADMIN</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <button [disabled]="formEditUser.invalid"
+                  type="submit" class="btn btn-outline-primary">Update
+          </button>
+        </div>
+        <div *ngIf="selectedUser"
+             class="form-group mx-sm-3 mb-2">
+          <button (click)="deleteUser()"
+                  type="button" class="btn btn-outline-danger">Delete
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!--    <app-avatar></app-avatar>-->
+  </div>
+
+  <!--  user table-->
+  <div class="col">
+    <p-table [value]="users" [columns]="cols" [scrollable]="true" scrollHeight="75vh">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+            {{col.header}}
+            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user let-columns="columns">
+        <tr>
+          <td>{{user.id}}</td>
+          <td>{{user.username}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.roles}}</td>
+          <td style="text-align:center">
+            <button pButton type="button" icon="pi pi-pencil" class="ui-button-info"
+                    (click)="onSelectUser(user)"></button>
+
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+
+
+
+
+
+
+

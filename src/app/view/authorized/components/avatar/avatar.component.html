@@ -1,0 +1,40 @@
+<!--<div class="card" style="max-width: 18rem;">-->
+<!--  <form [formGroup]="uploadForm" (ngSubmit)="submit()">-->
+<!--    &lt;!&ndash; Select File &ndash;&gt;-->
+<!--    <input type="file" accept="image/*" (change)="showPreview($event)" />-->
+
+<!--    &lt;!&ndash; Image Preview &ndash;&gt;-->
+<!--    <div class="imagePreview"   *ngIf="imageURL && imageURL !== ''">-->
+<!--      <img [src]="imageURL" [alt]="uploadForm.value.name" class="img-fluid">-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Assign Image Alt &ndash;&gt;-->
+<!--    <input formControlName="name" placeholder="Enter name">-->
+
+<!--    <button type="submit">Submit</button>-->
+<!--  </form>-->
+
+<!--</div>-->
+<form class="form-inline p-3"
+      [formGroup]="profileForm"
+      (ngSubmit)="submit()">
+  <div class="card form-group mx-sm-3 mb-2" style="max-width: 18rem;"
+       (click)="fileInput.click()"
+       appDragDrop (onFileDropped)="uploadFile($event)">
+    <input hidden type="file" accept="image/*"
+           #fileInput (change)="showPreview($event)">
+    <!-- Image Preview -->
+    <div class="imagePreview photoContainer" *ngIf="imageURL && imageURL !== ''">
+      <img [src]="imageURL" [alt]="profileForm.value.name" class="img-fluid ">
+    </div>
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="inputUsernameEdit" class="sr-only">Username</label>
+    <input name="username" formControlName="name"
+           class="form-control" id="inputUsernameEdit" placeholder="Name"/>
+  </div>
+  <button type="submit" class="btn btn-outline-primary">Save</button>
+</form>
+"idUserProfile": 0,
+"dismissed": 0,
+"name": "string"

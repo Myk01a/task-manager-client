@@ -1,0 +1,14 @@
+.photoContainer {
+
+  //height: 200px;
+  max-width: 18rem;
+  //margin: 20px auto;
+  //border-radius: 10px;
+}
+
+.photoContainer:hover {
+  cursor: pointer;
+  background-color: #9ecbec !important;
+  opacity: 0.8;
+}
+

@@ -1,0 +1,24 @@
+.avatar-crop{
+  display: block;
+  max-width: 19rem;
+}
+.btn-avatar{
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.photoContainer {
+  background-image: url('~src/assets/default-user-icon.jpg');
+  background-repeat: no-repeat;
+  background-size: 270px;
+  background-position: center;
+  height: 300px;
+  width: 300px;
+}
+
+.photoContainer:hover {
+  //cursor: pointer;
+  //background-color: #9ecbec !important;
+  //opacity: 0.8;
+}

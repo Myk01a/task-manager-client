@@ -1,0 +1,36 @@
+<!-- no additional media querie or css is required -->
+<div class="container">
+  <div class="row justify-content-center align-items-center" style="height:60vh">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <form action="" autocomplete="off" [formGroup]="form" (ngSubmit)="submit()">
+            <div class="form-group">
+              <input type="text" id="username" class="form-control" name="username" formControlName="username" placeholder="Name">
+            </div>
+            <div class="form-group" [ngClass]="{invalid: form.get('password').touched && form.get('password').invalid}">
+              <input type="password" id="password" class="form-control" name="password" formControlName="password" placeholder="Password">
+            </div>
+            <div
+              class="validation"
+              *ngIf="form.get('password').touched && form.get('password').invalid"
+            >
+              <small *ngIf="form.get('password').errors.required">
+                Введите пароль
+              </small>
+              <small *ngIf="form.get('password').errors.minlength">
+                Пароль должен быть не менее
+                {{form.get('password').errors.minlength.requiredLength}}
+                символов. Сейчас он
+                {{form.get('password').errors.minlength.actualLength}}
+                символа.
+              </small>
+            </div>
+            <br>
+            <button type="submit" id="sendlogin" class="btn btn-primary btn-lg btn-block" [disabled]="form.invalid || submitted">login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

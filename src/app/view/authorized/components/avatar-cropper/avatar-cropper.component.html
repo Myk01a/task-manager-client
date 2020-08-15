@@ -1,0 +1,30 @@
+<div class="card avatar-crop form-group mx-sm-3 mb-2">
+  <div  class="photoContainer">
+  <image-cropper class="pt-4"
+    [imageBase64]="imageBase64"
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 4"
+    [resizeToWidth]="256"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"></image-cropper>
+  </div>
+  <label class="btn btn-light btn-file btn-avatar">Browse photo
+    <input type="file" style="display: none;" (change)="fileChangeEvent($event)"/>
+  </label>
+  <div class="btn-group btn-avatar" role="group" >
+    <button type="button" class="btn  btn-light" (click)="cropperReady()">Crop
+    </button>
+    <button type="button" class="btn  btn-light" style="border-left:1px solid #ced4da"
+            (click)="clear()">Clear
+    </button>
+  </div>
+</div>
+<!--        <div class="text-center col-md-4">-->
+<!--          <h5>Preview</h5>-->
+<!--          <img [src]="croppedImage" />-->
+<!--        </div>-->
+

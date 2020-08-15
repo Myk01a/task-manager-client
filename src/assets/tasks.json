@@ -1,0 +1,144 @@
+ [
+              {
+                "id": 1,
+                "title": "task1",
+                "description": "some description",
+                "creation": "2001-01-20T00:00:00.000+0000",
+                "deadline": "2016-01-20T00:00:00.000+0000",
+                "completed": null,
+                "taskAttachment": [
+                  {
+                    "id": 1,
+                    "url": "\\attachment\\myDocument.pdf"
+                  }
+                ],
+                "category": {
+                  "id": 1,
+                  "name": "первая"
+                },
+                "owner": {
+                  "id": 1,
+                  "username": "user",
+                  "email": "user@domain.com",
+                  "password": "user",
+                  "roles": [
+                    "ROLE_ADMIN"
+                  ]
+                },
+                "executor": {
+                  "id": 2,
+                  "username": "user2",
+                  "email": "user2@domain.com",
+                  "password": "user2",
+                  "roles": [
+                    "ROLE_CLIENT"
+                  ]
+                },
+                "observer": [
+                  {
+                    "id": 1,
+                    "username": "user",
+                    "email": "user@domain.com",
+                    "password": "user",
+                    "roles": [
+                      "ROLE_ADMIN"
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "username": "user2",
+                    "email": "user2@domain.com",
+                    "password": "user2",
+                    "roles": [
+                      "ROLE_CLIENT"
+                    ]
+                  }
+                ],
+                "comment": [
+                  {
+                    "id": 1,
+                    "message": "my comment",
+                    "creationTime": "2020-06-20T23:30:03.000+0000",
+                    "commentator": {
+                      "id": 1,
+                      "username": "user",
+                      "email": "user@domain.com",
+                      "password": "user",
+                      "roles": [
+                        "ROLE_ADMIN"
+                      ]
+                    },
+                    "commentAttachment": [
+                      {
+                        "id": 1,
+                        "url": "\\attachment\\new_doc.pdf"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "message": "ansver",
+                    "creationTime": "2020-06-23T16:38:02.000+0000",
+                    "commentator": {
+                      "id": 2,
+                      "username": "user2",
+                      "email": "user2@domain.com",
+                      "password": "user2",
+                      "roles": [
+                        "ROLE_CLIENT"
+                      ]
+                    },
+                    "commentAttachment": []
+                  },
+                  {
+                    "id": 3,
+                    "message": "apel",
+                    "creationTime": "2020-06-23T16:38:02.000+0000",
+                    "commentator": {
+                      "id": 1,
+                      "username": "user",
+                      "email": "user@domain.com",
+                      "password": "user",
+                      "roles": [
+                        "ROLE_ADMIN"
+                      ]
+                    },
+                    "commentAttachment": []
+                  }
+                ]
+              },
+              {
+                "id": 2,
+                "title": "new task",
+                "description": "new description",
+                "creation": "2002-02-20T00:00:00.000+0000",
+                "deadline": "2010-12-20T00:00:00.000+0000",
+                "completed": "2012-06-20T00:00:00.000+0000",
+                "taskAttachment": [],
+                "category": {
+                  "id": 1,
+                  "name": "первая"
+                },
+                "owner": {
+                  "id": 1,
+                  "username": "user",
+                  "email": "user@domain.com",
+                  "password": "user",
+                  "roles": [
+                    "ROLE_ADMIN"
+                  ]
+                },
+                "executor": {
+                  "id": 2,
+                  "username": "user2",
+                  "email": "user2@domain.com",
+                  "password": "user2",
+                  "roles": [
+                    "ROLE_CLIENT"
+                  ]
+                },
+                "observer": [],
+                "comment": []
+              }
+  ]
+

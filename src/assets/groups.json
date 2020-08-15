@@ -1,0 +1,23 @@
+
+[
+  {
+    "id": 1,
+    "name": "первая"
+  },
+  {
+    "id": 2,
+    "name": "вторая"
+  },
+  {
+    "id": 3,
+    "name": "важная"
+  },
+  {
+    "id": 4,
+    "name": "updated group"
+  },
+  {
+    "id": 5,
+    "name": "addeded group"
+  }
+]
