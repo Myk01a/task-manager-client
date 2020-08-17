@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ImageCroppedEvent} from "ngx-image-cropper";
+import {AvatarCropService} from "../../../../services/avatar-crop.service";
 
 @Component({
   selector: 'app-avatar-cropper',
   templateUrl: './avatar-cropper.component.html',
   styleUrls: ['./avatar-cropper.component.scss']
 })
-export class AvatarCropperComponent {
+export class AvatarCropperComponent implements OnInit{
+    [x: string]: any;
 
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
-  imageBase64: any = '';
+  private imageChangedEvent: any = '';
+  private croppedImage: any = '';
+  private imageBase64: any = '';
+
+constructor( private avatarCropService: AvatarCropService) {
+}
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
@@ -18,6 +23,7 @@ export class AvatarCropperComponent {
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
   }
+
   imageLoaded() {
     /* show cropper */
   }
@@ -31,5 +37,13 @@ export class AvatarCropperComponent {
 
   clear() {
     this.imageChangedEvent= null;
+  }
+
+  avatarClear(){
+    this.imageChangedEvent= null;
+  }
+
+  ngOnInit(): void {
+    this.avatarCropService.trigger$.subscribe(() => this.avatarClear());
   }
 }

@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Roles, User} from "../../../../model/interfaces";
+import {Component, OnInit, ViewChildren} from '@angular/core';
+import {User} from "../../../../model/interfaces";
 import {UserService} from "../../../../services/user.service";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AvatarCropperComponent} from "../avatar-cropper/avatar-cropper.component";
+import {AvatarCropService} from "../../../../services/avatar-crop.service";
 
 
 @Component({
@@ -11,22 +13,22 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
   styleUrls: ['./user-manager.component.scss']
 })
 export class UserManagerComponent implements OnInit {
-   users: User[];
-   cols: any[];
+  users: User[];
+  cols: any[];
   private request: User;
   private formNewUser: FormGroup;
   private visible = false;
   private formEditUser: FormGroup;
   private selectedUser: User;
-  mySubscription: any;
-
+  @ViewChildren(AvatarCropperComponent)
+  private avatarComponent: AvatarCropperComponent;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    // private messageService: MessageService
+    private avatarCropService: AvatarCropService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -44,12 +46,18 @@ export class UserManagerComponent implements OnInit {
       {field: 'roles', header: 'roles'}
     ];
 
-    this.formEditUser = new FormGroup({
-      id: new FormControl({value: '', disabled: false}),
-      username: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      roles: new FormArray([new FormControl('')])
+    this.formEditUser = this.formBuilder.group({
+      idUserProfile: new FormControl(''),
+      name: new FormControl(''),
+      avatar: new FormControl(''),
+      dismissed: new FormControl(''),
+      idUser: new FormBuilder().group({
+        id: new FormControl(''),
+        username: new FormControl('', Validators.required),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [Validators.required, Validators.minLength(5)]),
+        roles: new FormArray([new FormControl('')])
+      })
     })
   }
 
@@ -84,16 +92,20 @@ export class UserManagerComponent implements OnInit {
   }
 
   private fillEditForm(user: User) {
-    this.formEditUser.controls['id'].patchValue(user.id);
-    this.formEditUser.controls['username'].patchValue(user.username);
-    this.formEditUser.controls['email'].patchValue(user.email);
+    this.formEditUser.controls['idUserProfile'].patchValue(user.id);
+    this.formEditUser.get('idUser').get('id').patchValue(user.id);
+    this.formEditUser.get('idUser').get('username').patchValue(user.username);
+    this.formEditUser.get('idUser').get('email').patchValue(user.email);
+    this.formEditUser.get('idUser').get('roles').patchValue(user.roles);
   }
 
   submit() {
+    this.formEditUser.controls['avatar'].patchValue(this.avatarComponent.last.imageBase64);
     console.log(this.formEditUser.value);
     this.userService.updateUser(this.formEditUser.value).subscribe((data) => {
       console.log("user updated", data);
     });
+    this.avatarCropService.avatarClear();
     this.formEditUser.reset();
   }
 
@@ -104,5 +116,4 @@ export class UserManagerComponent implements OnInit {
     this.formEditUser.reset();
     this.ngOnInit();
   }
-
 }

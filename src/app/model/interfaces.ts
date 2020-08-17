@@ -20,6 +20,13 @@ export interface User {
   username?: string,
   roles?: any[]
 }
+ export interface Profile {
+   idUserProfile: number,
+   avatar?: string,
+   dismissed?: number,
+   name?: string,
+   idUser: User
+ }
 
 export enum Roles {
   ROLE_ADMIN,

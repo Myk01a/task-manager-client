@@ -38,50 +38,72 @@
 
     <!--    edit user form-->
     <div>
-      <app-avatar-cropper></app-avatar-cropper>
       <form class="form-inline p-3" [formGroup]="formEditUser" (ngSubmit)="submit()">
+        <app-avatar-cropper></app-avatar-cropper>
         <div class="input-group d-inline">
           <div class="form-group mx-sm-3 mb-2" hidden>
             <label for="inputIdEdit" class="sr-only">Id</label>
-            <input name="id" formControlName="id" class="form-control" id="inputIdEdit" placeholder="Id"/>
+            <input name="idUserProfile" formControlName="idUserProfile" class="form-control" id="idUserProfile"
+                   placeholder="idUserProfile"/>
           </div>
           <div class="form-group mx-sm-3 mb-2">
-            <label for="inputUsernameEdit" class="sr-only">Username</label>
-            <input name="username" formControlName="username"
-                   class="form-control" id="inputUsernameEdit" placeholder="Username"/>
+            <label for="inputFullNameEdit" class="sr-only">FullName</label>
+            <input name="fullName" formControlName="name"
+                   class="form-control" id="inputFullNameEdit" placeholder="FullName"/>
           </div>
           <div class="form-group mx-sm-3 mb-2">
-            <label for="inputEmailEdit" class="sr-only">Email</label>
-            <input name="email" formControlName="email"
-                   class="form-control" id="inputEmailEdit" placeholder="Email"/>
+            <input formControlName="dismissed" type="radio" class="pr-4"
+                   name="dismissed" value="1" checked> работает
+            <input formControlName="dismissed" type="radio"
+                   name="dismissed" value="2" class="ml-4"> уволен
           </div>
-          <div class="form-group mx-sm-3 mb-2">
-            <label for="inputPasswordEdit" class="sr-only">Password</label>
-            <input name="password" formControlName="password"
-                   class="form-control" id="inputPasswordEdit" placeholder="Password"/>
+          <div formGroupName="idUser">
+            <div class="form-group mx-sm-3 mb-2" hidden>
+              <label for="inputIdEdit" class="sr-only">Id</label>
+              <input name="id" formControlName="id" class="form-control" id="inputIdEdit" placeholder="Id"/>
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="inputUsernameEdit" class="sr-only">Username</label>
+              <input name="username" formControlName="username"
+                     class="form-control" id="inputUsernameEdit" placeholder="Username"/>
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="inputEmailEdit" class="sr-only">Email</label>
+              <input name="email" formControlName="email"
+                     class="form-control" id="inputEmailEdit" placeholder="Email"/>
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="inputPasswordEdit" class="sr-only">Password</label>
+              <input name="password" formControlName="password"
+                     class="form-control" id="inputPasswordEdit" placeholder="Password"/>
+            </div>
+
+            <div class="form-group mx-sm-3 mb-2"
+                 formArrayName="roles"
+                 *ngFor="let item of formEditUser.get('idUser').get('roles').value; let i = index;"
+            >
+              <label for="selectRoleEdit" class="sr-only">Role</label>
+              <select name="array" [formControlName]="i"
+                      class="form-control" id="selectRoleEdit" placeholder="Role">
+                <option value="ROLE_CLIENT" selected>USER</option>
+                <option value="ROLE_ADMIN">ADMIN</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group mx-sm-3 mb-2"
-               formArrayName="roles"
-               *ngFor="let item of formEditUser.get('roles').controls; let i = index;"
-          >
-            <label for="selectRoleEdit" class="sr-only">Role</label>
-            <select name="array" [formControlName]="i"
-                    class="form-control" id="selectRoleEdit" placeholder="Role">
-              <option value="ROLE_CLIENT" selected>USER</option>
-              <option value="ROLE_ADMIN">ADMIN</option>
-            </select>
           </div>
-        </div>
-        <div class="form-group mx-sm-3 mb-2">
-          <button [disabled]="formEditUser.invalid"
-                  type="submit" class="btn btn-outline-primary">Update
-          </button>
-        </div>
-        <div *ngIf="selectedUser"
-             class="form-group mx-sm-3 mb-2">
-          <button (click)="deleteUser()"
-                  type="button" class="btn btn-outline-danger">Delete
-          </button>
+          <div class="btn-group">
+            <div class="form-group mx-sm-3 mb-2">
+              <button [disabled]="formEditUser.invalid"
+                      type="submit" class="btn btn-outline-primary">Update
+              </button>
+            </div>
+            <div *ngIf="selectedUser"
+                 class="form-group mx-sm-3 mb-2">
+              <button (click)="deleteUser()"
+                      type="button" class="btn btn-outline-danger">Delete
+              </button>
+            </div>
+<!--          </div>-->
         </div>
       </form>
     </div>
