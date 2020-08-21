@@ -5,6 +5,7 @@ export interface UserAuth {
 }
 
 export interface AuthResponse {
+  [x: string]: string;
   token: string
 }
 

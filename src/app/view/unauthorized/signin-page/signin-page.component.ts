@@ -5,7 +5,6 @@ import {AuthService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
 
 
-
 @Component({
   selector: 'app-signin-page',
   templateUrl: './signin-page.component.html',
@@ -24,7 +23,7 @@ export class SigninPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auth.logout(); //todo add if
+    this.auth.logout();
     this.form = new FormGroup({
       username: new FormControl(null, []),
       password: new FormControl(null, [
@@ -49,7 +48,10 @@ export class SigninPageComponent implements OnInit {
     this.auth.login(user).subscribe(() => {
       this.form.reset()
       this.router.navigate(['/authorized', 'default'])
+
       this.submitted = false
+    }, error => {
+      this.form.reset();
     })
   }
 }

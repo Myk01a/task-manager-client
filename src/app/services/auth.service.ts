@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
+
   constructor(private http: HttpClient) {
   }
 
@@ -23,14 +24,11 @@ export class AuthService {
     let formData: FormData = new FormData();
     formData.append('username', user.username);
     formData.append('password', user.password);
-
-    console.log(user)
     return this.http.post(environment.apiUrl+'/user/signin', formData)
       .pipe(
         tap(this.setToken),
         catchError(this.handleError.bind(this))
       )
-
   }
 
   logout() {
@@ -41,12 +39,21 @@ export class AuthService {
     return !!this.token
   }
 
+  refreshToken(){
+     this.http.get<any>(environment.apiUrl+'/user/refresh').subscribe((data)=> {
+       this.setToken(data);
+     })
+  }
+
   private setToken(response: AuthResponse | null) {
     if (response) {
       console.log(response);
       const expDate = new Date(new Date().getTime() + +3600000)
       localStorage.setItem('token', response.token)
       localStorage.setItem('token-exp', expDate.toString())
+      if(response.userId) {
+        localStorage.setItem('userId', response.userId)
+      }
     } else {
       localStorage.clear()
     }

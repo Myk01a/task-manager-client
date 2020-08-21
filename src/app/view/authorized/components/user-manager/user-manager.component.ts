@@ -1,10 +1,12 @@
 import {Component, OnInit, ViewChildren} from '@angular/core';
-import {User} from "../../../../model/interfaces";
+import {Profile, User} from "../../../../model/interfaces";
 import {UserService} from "../../../../services/user.service";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AvatarCropperComponent} from "../avatar-cropper/avatar-cropper.component";
 import {AvatarCropService} from "../../../../services/avatar-crop.service";
+import {ProfileService} from "../../../../services/profile.service";
+import {AuthService} from "../../../../services/auth.service";
 
 
 @Component({
@@ -13,6 +15,7 @@ import {AvatarCropService} from "../../../../services/avatar-crop.service";
   styleUrls: ['./user-manager.component.scss']
 })
 export class UserManagerComponent implements OnInit {
+  checkbox = false;
   users: User[];
   cols: any[];
   private request: User;
@@ -22,12 +25,16 @@ export class UserManagerComponent implements OnInit {
   private selectedUser: User;
   @ViewChildren(AvatarCropperComponent)
   private avatarComponent: AvatarCropperComponent;
+  private profile: Profile;
+
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private profileService: ProfileService,
+    private auth: AuthService,
     private avatarCropService: AvatarCropService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -40,10 +47,10 @@ export class UserManagerComponent implements OnInit {
     });
 
     this.cols = [
-      {field: 'id', header: 'id'},
+      {field: 'id', header: 'id', style:'width:10%'},
       {field: 'username', header: 'username'},
       {field: 'email', header: 'email'},
-      {field: 'roles', header: 'roles'}
+      {field: 'roles', header: 'roles', style:'width:20%'}
     ];
 
     this.formEditUser = this.formBuilder.group({
@@ -87,11 +94,30 @@ export class UserManagerComponent implements OnInit {
   }
 
   onSelectUser(user) {
-    this.fillEditForm(user);
+    this.profileService.getProfile(user.id).subscribe((data)=>{
+      this.profile = data;
+      console.log("profile", data);
+      this.fillFormProfile();
+    },error => {
+      console.log(error);
+      this.avatarCropService.avatarClear();
+      this.avatarComponent.last.imageBase64 = null;
+      this.formEditUser.reset();
+      this.fillFormUser(user);
+    },()=>{
+       this.fillFormUser(user);
+    })
     this.selectedUser = user;
   }
 
-  private fillEditForm(user: User) {
+  private fillFormProfile(){
+    this.formEditUser.controls['name'].patchValue(this.profile.name);
+    this.avatarComponent.last.imageBase64 = this.profile.avatar;
+    this.formEditUser.get('dismissed').patchValue(this.profile.dismissed.toString());
+    console.log(this.formEditUser.get('dismissed'));
+  }
+
+  private fillFormUser(user: User) {
     this.formEditUser.controls['idUserProfile'].patchValue(user.id);
     this.formEditUser.get('idUser').get('id').patchValue(user.id);
     this.formEditUser.get('idUser').get('username').patchValue(user.username);
@@ -102,10 +128,11 @@ export class UserManagerComponent implements OnInit {
   submit() {
     this.formEditUser.controls['avatar'].patchValue(this.avatarComponent.last.imageBase64);
     console.log(this.formEditUser.value);
-    this.userService.updateUser(this.formEditUser.value).subscribe((data) => {
-      console.log("user updated", data);
+    this.profileService.createProfile(this.formEditUser.value).subscribe((data) => {
+      console.log("profile updated", data);
     });
     this.avatarCropService.avatarClear();
+    this.avatarComponent.last.imageBase64 = null;
     this.formEditUser.reset();
   }
 
@@ -115,5 +142,9 @@ export class UserManagerComponent implements OnInit {
     });
     this.formEditUser.reset();
     this.ngOnInit();
+  }
+
+  test(){
+
   }
 }
