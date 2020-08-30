@@ -1,7 +1,7 @@
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { SigninPageComponent } from './view/unauthorized/signin-page/signin-page.component';
-import { UnauthorizedLayoutComponent } from './view/unauthorized/unauthorized-layout/unauthorized-layout.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {SigninPageComponent} from './view/unauthorized/signin-page/signin-page.component';
+import {UnauthorizedLayoutComponent} from './view/unauthorized/unauthorized-layout/unauthorized-layout.component';
 import {NgModule} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {CalendarModule, CardModule} from "primeng";
@@ -12,35 +12,38 @@ import {AuthService} from "./services/auth.service";
 import {SharedModule} from "./view/unauthorized/shared.module";
 import {TokenInterceptor} from "./services/token.interceptor";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {AuthorizedModule} from "./view/authorized/authorized-module";
+import {QuillModule} from "ngx-quill";
+import { UserObserversComponent } from './view/authorized/components/user-observers/user-observers.component';
+import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        SigninPageComponent,
-        UnauthorizedLayoutComponent
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        SharedModule,
-        BrowserAnimationsModule,
-        CardModule,
-        CalendarModule,
-        FocusTrapModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AuthorizedModule
-    ],
-    providers: [
-        AuthService,
-        {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
-    ],
-    exports: [
-
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    SigninPageComponent,
+    UnauthorizedLayoutComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    SharedModule,
+    BrowserAnimationsModule,
+    CardModule,
+    CalendarModule,
+    FocusTrapModule,
+    FormsModule,
+    ReactiveFormsModule,
+    QuillModule.forRoot(),
+    NgMultiSelectDropDownModule
+  ],
+  providers: [
+    AuthService,
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+  ],
+  exports: [
+  ],
+  bootstrap: [AppComponent]
 })
 
-export class AppModule { }
+export class AppModule {
+}

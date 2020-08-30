@@ -1,0 +1,12 @@
+<div [formGroup]="form">
+  <ng-multiselect-dropdown
+    [settings]="dropdownSettings"
+    [placeholder]="'custom placeholder'"
+    [data]="dropdownList"
+    [(ngModel)]="selectedItems"
+    (onSelect)="onItemSelect($event)"
+    (onSelectAll)="onSelectAll($event)"
+    formControlName="observer"
+  >
+  </ng-multiselect-dropdown>
+</div>

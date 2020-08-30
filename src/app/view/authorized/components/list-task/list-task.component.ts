@@ -92,5 +92,9 @@ export class ListTaskComponent implements OnInit {
       }
     });
   }
+
+  newTaskModal() {
+
+  }
 }
 

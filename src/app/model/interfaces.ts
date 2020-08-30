@@ -34,8 +34,6 @@ export enum Roles {
   ROLE_CLIENT,
 }
 
-
-
 export interface CommentAttachment {
   id: number,
   url: string
@@ -67,6 +65,8 @@ export interface Task {
   observer?: [User],
   comment?: [Comment],
   taskAttachment?: [TaskAttachment]
+  price?: number;
+  done?: boolean;
 }
 
 

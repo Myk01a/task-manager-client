@@ -15,6 +15,9 @@ export class UserService {
   public getUsers(): Observable<any> {
     return this.http.get(environment.apiUrl+"/user/all");
   }
+  public getShortUsers(): Observable<any> {
+    return this.http.get(environment.apiUrl+"/user/all-short");
+  }
   public getUser(id): Observable<any> {
     return this.http.get(environment.apiUrl+"/user/id/"+id);
   }

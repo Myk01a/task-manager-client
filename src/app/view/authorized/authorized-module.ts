@@ -27,10 +27,12 @@ import {EditTaskDialogComponent} from "./components/edit-task-dialog/edit-task-d
 import {DefaultComponent} from "./components/default/default.component";
 import {UserManagerComponent} from "./components/user-manager/user-manager.component";
 import {AvatarComponent} from "./components/avatar/avatar.component";
-import {UnauthorizedLayoutComponent} from "../unauthorized/unauthorized-layout/unauthorized-layout.component";
 import {DragDropDirective} from "../../services/drag-drop.directive";
 import {ImageCropperModule} from "ngx-image-cropper";
 import {AvatarCropperComponent} from "./components/avatar-cropper/avatar-cropper.component";
+import {QuillModule} from "ngx-quill";
+import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
+import {UserObserversComponent} from "./components/user-observers/user-observers.component";
 
 
 @NgModule({
@@ -45,11 +47,11 @@ import {AvatarCropperComponent} from "./components/avatar-cropper/avatar-cropper
     EditTaskDialogComponent,
     AvatarComponent,
     DragDropDirective,
+    UserObserversComponent,
     AvatarCropperComponent
   ],
   imports: [
     CommonModule,
-
     RouterModule.forChild([
       {
         path: '', component: AuthorizedLayoutComponent, canActivate: [AuthGuard], children: [
@@ -74,7 +76,9 @@ import {AvatarCropperComponent} from "./components/avatar-cropper/avatar-cropper
     MenuModule,
     EditorModule,
     ImageCropperModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    QuillModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   exports: [
     RouterModule,
