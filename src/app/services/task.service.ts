@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
@@ -16,14 +16,16 @@ export class TaskService {
   }
 
   public getTask(): Observable<any> {
-    return this.http.get(environment.apiUrl+"/task/all");
+    return this.http.get(environment.apiUrl + "/task/all");
     // return this.http.get("../assets/tasks.json");
   }
+
   public getTaskById(id): Observable<any> {
-    return this.http.get(environment.apiUrl + "/task/id/"+id);
+    return this.http.get(environment.apiUrl + "/task/id/" + id);
   }
-  public  createTask(task: Task):Observable<Task>{
-    return this.http.post<Task>('environment.apiUrl + "/task/add"',task )
+
+  public createTask(task: Task): Observable<Task> {
+    return this.http.post<Task>(environment.apiUrl + "/task/add", task)
   }
 
 }

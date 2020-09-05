@@ -18,15 +18,19 @@ export class DragDropDirective {
     this.background = '#9ecbec';
     this.opacity = '0.8'
   }
+
   //Dragleave listener
-  @HostListener('dragleave', ['$event']) public onDragLeave(evt) {
+  @HostListener('dragleave', ['$event'])
+  public onDragLeave(evt) {
     evt.preventDefault();
     evt.stopPropagation();
     this.background = '#f5fcff'
     this.opacity = '1'
   }
+
   //Drop listener
-  @HostListener('drop', ['$event']) public ondrop(evt) {
+  @HostListener('drop', ['$event'])
+  public ondrop(evt) {
     evt.preventDefault();
     evt.stopPropagation();
     this.background = '#f5fcff'

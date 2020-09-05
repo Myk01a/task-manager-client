@@ -6,6 +6,7 @@ export interface UserAuth {
 
 export interface AuthResponse {
   [x: string]: string;
+
   token: string
 }
 
@@ -21,13 +22,14 @@ export interface User {
   username?: string,
   roles?: any[]
 }
- export interface Profile {
-   idUserProfile: number,
-   avatar?: string,
-   dismissed?: number,
-   name?: string,
-   idUser: User
- }
+
+export interface Profile {
+  idUserProfile: number,
+  avatar?: string,
+  dismissed?: number,
+  name?: string,
+  idUser: User
+}
 
 export enum Roles {
   ROLE_ADMIN,
@@ -69,4 +71,7 @@ export interface Task {
   done?: boolean;
 }
 
-
+export interface ShortUser {
+  id: number,
+  username: string;
+}

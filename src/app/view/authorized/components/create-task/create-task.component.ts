@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {UserService} from "../../../../services/user.service";
 import {GroupService} from "../../../../services/group.service";
 import {IDropdownSettings} from "ng-multiselect-dropdown";
 import {HttpEventType, HttpResponse} from "@angular/common/http";
-import {Observable} from "rxjs";
 import {UploadFilesService} from "../../../../services/upload-files.service";
+import {DatePipe} from "@angular/common";
+import {TaskService} from "../../../../services/task.service";
 
 @Component({
   selector: 'app-create-task',
@@ -25,11 +26,14 @@ export class CreateTaskComponent implements OnInit {
   progressInfos = [];
   message = '';
 
-  fileInfos: Observable<any>;
+  // fileInfos: Observable<any>;
+  data: any;
+
 
   constructor(private formBuilder: FormBuilder,
               private groupService: GroupService,
               private uploadService: UploadFilesService,
+              private taskService: TaskService,
               private userService: UserService) {
   }
 
@@ -37,18 +41,17 @@ export class CreateTaskComponent implements OnInit {
     this.form = this.formBuilder.group({
       title: new FormControl(''),
       description: new FormControl(''),
-      group: new FormControl(''),
+      groupp: new FormControl(''),
       comment: [null],
       completed: [null],
-      creation: [new Date().toLocaleDateString()],
+      creation: new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd'),
       deadline: new FormControl(''),
       done: false,
       executor: new FormControl(''),
       observer: new FormControl(''),
-      owner: [localStorage.getItem('userId')],
+      owner: [({id: localStorage.getItem('userId'), username: localStorage.getItem('userName')})],
       price: new FormControl(''),
-      taskAttachment: null,
-      file:this.formBuilder.array([])
+      attachment: null
     });
 
     this.groupService.getGroup().subscribe(data => {
@@ -70,14 +73,39 @@ export class CreateTaskComponent implements OnInit {
       itemsShowLimit: 3,
       allowSearchFilter: true
     };
-
-    // this.fileInfos = this.uploadService.getFiles();
-
   }
 
   submit() {
-    console.log("new task", this.form.value);
-    this.form.reset();
+    this.form.patchValue({
+      attachment: this.files,
+      deadline: new DatePipe('en-US').transform(this.form.value.deadline, 'yyyy-MM-dd')
+    })
+    console.log('task submitted',this.form.value);
+    this.taskService.createTask(this.form.value).subscribe((data) => {
+      console.log("task created", data);
+    });
+    // console.log("new task", this.form.value);
+    this.data = this.form.value;
+    this.patchValueForm();
+  }
+
+  private patchValueForm() {
+    this.form.patchValue({
+      title: '',
+      description: '',
+      groupp: '',
+      comment: null,
+      completed: null,
+      creation: new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd'),
+      deadline: '',
+      done: false,
+      executor: '',
+      observer: '',
+      owner: ({id: localStorage.getItem('userId'), username: localStorage.getItem('userName')}),
+      price: '',
+      attachment: null
+    });
+    this.files = [];
   }
 
   onItemSelect(item: any) {
@@ -87,32 +115,29 @@ export class CreateTaskComponent implements OnInit {
   onSelectAll(items: any) {
     // console.log(items);
   }
+
   uploadFile(event) {
-    let f = event.target.files;
-    for (let index = 0; index < f.length; index++) {
-      const element = f[index];
-      this.files.push(element.name)
-    }
+    this.progressInfos = [];
     this.selectedFiles = event.target.files;
-    this.uploadFiles();
-    console.log(this.selectedFiles);
+    this.message = '';
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+      this.upload(i, this.selectedFiles[i]);
+    }
   }
 
   deleteAttachment(index) {
     this.files.splice(index, 1)
-
   }
 
   upload(idx, file) {
-    this.progressInfos[idx] = { value: 0, fileName: file.name };
+    this.progressInfos[idx] = {value: 0, fileName: file.name};
 
     this.uploadService.upload(file).subscribe(
       event => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
-          console.log(event);
-          // this.fileInfos = this.uploadService.getFiles();
+          this.files.push(event.body[0])
         }
       },
       err => {
@@ -121,14 +146,8 @@ export class CreateTaskComponent implements OnInit {
       });
   }
 
-  uploadFiles() {
-    this.message = '';
+  formatDate(date: Date) {
+    return  new DatePipe('en-US').transform(date, 'dd/MM/yyyy');
 
-    for (let i = 0; i < this.selectedFiles.length; i++) {
-      this.upload(i, this.selectedFiles[i]);
-    }
   }
-
-
-
 }

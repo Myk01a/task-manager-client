@@ -3,7 +3,7 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {AuthResponse, UserAuth} from "../model/interfaces";
-import { environment } from '../../environments/environment';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +24,7 @@ export class AuthService {
     let formData: FormData = new FormData();
     formData.append('username', user.username);
     formData.append('password', user.password);
-    return this.http.post(environment.apiUrl+'/user/signin', formData)
+    return this.http.post(environment.apiUrl + '/user/signin', formData)
       .pipe(
         tap(this.setToken),
         catchError(this.handleError.bind(this))
@@ -39,10 +39,10 @@ export class AuthService {
     return !!this.token
   }
 
-  refreshToken(){
-     this.http.get<any>(environment.apiUrl+'/user/refresh').subscribe((data)=> {
-       this.setToken(data);
-     })
+  refreshToken() {
+    this.http.get<any>(environment.apiUrl + '/user/refresh').subscribe((data) => {
+      this.setToken(data);
+    })
   }
 
   private setToken(response: AuthResponse | null) {
@@ -51,8 +51,11 @@ export class AuthService {
       const expDate = new Date(new Date().getTime() + +3600000)
       localStorage.setItem('token', response.token)
       localStorage.setItem('token-exp', expDate.toString())
-      if(response.userId) {
+      if (response.userId) {
         localStorage.setItem('userId', response.userId)
+      }
+      if (response.userName) {
+        localStorage.setItem('userName', response.userName)
       }
     } else {
       localStorage.clear()
