@@ -75,3 +75,10 @@ export interface ShortUser {
   id: number,
   username: string;
 }
+
+export interface Params {
+  pageNo?: number,
+  pageSize?: number,
+  sortBy?: string
+
+}
