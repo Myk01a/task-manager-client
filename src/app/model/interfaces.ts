@@ -6,7 +6,6 @@ export interface UserAuth {
 
 export interface AuthResponse {
   [x: string]: string;
-
   token: string
 }
 
@@ -31,10 +30,10 @@ export interface Profile {
   idUser: User
 }
 
-export enum Roles {
-  ROLE_ADMIN,
-  ROLE_CLIENT,
-}
+// export enum Roles {
+//   ROLE_ADMIN,
+//   ROLE_CLIENT,
+// }
 
 export interface CommentAttachment {
   id: number,
@@ -76,9 +75,52 @@ export interface ShortUser {
   username: string;
 }
 
-export interface Params {
-  pageNo?: number,
-  pageSize?: number,
-  sortBy?: string
+// export interface Params {
+//   pageNumber?: number,
+//   pageSize?: number,
+//   sortBy?: string
+// }
 
+export interface SearchParam {
+  title: string,
+  description: string,
+  ownerId: number,
+  grouppId: number,
+  done: boolean,
+  pageNumber: number,
+  pageSize: number,
+  sortColumn: string,
+  sortDirection: string
+}
+
+export interface Page
+{
+  totalPages: number,
+  totalElements: number,
+  size: number,
+  content: [
+    Task
+  ],
+  number: number,
+  sort: {
+    sorted: boolean,
+    unsorted: boolean,
+    empty: boolean
+  },
+  numberOfElements: number,
+  first: boolean,
+  pageable: {
+    offset: number,
+    sort: {
+      sorted: boolean,
+      unsorted: boolean,
+      empty: boolean
+    },
+    pageSize: number,
+    pageNumber: number,
+    paged: boolean,
+    unpaged: boolean
+  },
+  last: boolean,
+  empty: boolean
 }

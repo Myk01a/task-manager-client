@@ -3,14 +3,9 @@
           type="button" class="btn btn-outline-primary">New task
   </button>
 </div>
-<!--<div class="p-mb-3">-->
-<!--  <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>-->
-<!--  <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>-->
-<!--  <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>-->
-<!--</div>-->
 <p-table styleClass="ui-table-tasks"
          #dt
-          [value]="datasource" selectionMode="single"
+         [value]="datasource" selectionMode="single"
          [(selection)]="selectedTask" dataKey="id"
          [rowHover]="true"
          [filterDelay]="0"
@@ -20,26 +15,14 @@
          (onRowUnselect)="onRowUnselect($event)"
          [metaKeySelection]="false"
          [(first)]="first"
-          [rows]="rows"
-          [lazy]="true"
+         [rows]="rows"
+         [lazy]="true"
          [showCurrentPageReport]="true"
          [rowsPerPageOptions]="[10,12,15,20]"
-          [paginator]="true"
-          (onLazyLoad)="loadTasks($event)"
-          [totalRecords]="totalRecords"
-
+         [paginator]="true"
+         (onLazyLoad)="onFiltered($event)"
+         [totalRecords]="totalRecords"
 >
-  [loading]="loading"
-  [resizableColumns]="true"
-  <!--         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"-->
-
-<!--  [value]="customers" [lazy]="true" (onLazyLoad)="loadCustomers($event)"-->
-<!--  [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [loading]="loading">-->
-<!--  <ng-template pTemplate="header"-->
-<!--  [value]="customers" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"-->
-<!--  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]"-->
-  <!--  [loading]="loading"-->
-
   <ng-template pTemplate="caption">
     List of Task
     <div class="ui-table-globalfilter-container">

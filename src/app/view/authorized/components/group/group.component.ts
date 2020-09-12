@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {GroupService} from "../../../../services/group.service";
 import {Group} from "../../../../model/interfaces";
 import {FormControl, FormGroup} from "@angular/forms";
+import {SortByGroupService} from "../../../../services/sort-by-group.service";
 
 @Component({
   selector: 'app-group',
@@ -26,7 +27,8 @@ export class GroupComponent implements OnInit {
   private id: number;
 
   constructor(
-    private groupService: GroupService
+    private groupService: GroupService,
+    private sortByGroupService: SortByGroupService
   ) {
   }
 
@@ -41,6 +43,7 @@ export class GroupComponent implements OnInit {
     this.groupEditForm.controls['id'].setValue(this.selectedGroup.id);
     this.groupEditForm.controls['name'].setValue(this.selectedGroup.name);
     this.name = this.selectedGroup.name;
+    this.sortByGroupService.newEvent(this.selectedGroup.id);
   }
 
   addGroup() {
