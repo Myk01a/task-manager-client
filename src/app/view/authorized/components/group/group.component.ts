@@ -40,9 +40,11 @@ export class GroupComponent implements OnInit {
 
   onSelect(group: Group): void {
     this.selectedGroup = group;
+    if(group.id!=null){
     this.groupEditForm.controls['id'].setValue(this.selectedGroup.id);
     this.groupEditForm.controls['name'].setValue(this.selectedGroup.name);
     this.name = this.selectedGroup.name;
+    }
     this.sortByGroupService.newEvent(this.selectedGroup.id);
   }
 
