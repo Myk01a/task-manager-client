@@ -24,6 +24,7 @@ export class ListTaskComponent implements OnInit {
   datasource: Task[];
   first = 0;
   rows = 10;
+  taskIsClosed = "active task";
 
   constructor(
     private taskService: TaskService,
@@ -72,6 +73,7 @@ export class ListTaskComponent implements OnInit {
       {width: '14%'}
     ];
   }
+
   private loadTask() {
     this.taskService.searchTask(this.searchParams).subscribe(data => {
       this.datasource = data.content;
@@ -89,7 +91,17 @@ export class ListTaskComponent implements OnInit {
   }
 
   closeTask() {
-    console.log(this._selectedTask.title);
+    this.selectedTask.done = true;
+    this.selectedTask.completed = new Date();
+    this.taskService.updateTask(this.selectedTask).subscribe(result => console.log(result));
+    this.contextMenuVisible = false;
+    this.table.selection = null;
+  }
+
+  taskReOpen() {
+    this.selectedTask.done = false;
+    this.selectedTask.completed = null;
+    this.taskService.updateTask(this.selectedTask).subscribe(result => console.log(result));
     this.contextMenuVisible = false;
     this.table.selection = null;
   }
@@ -154,6 +166,20 @@ export class ListTaskComponent implements OnInit {
     // this.searchParams.grouppId = this.selectGroupId;
     // console.log(this.searchParams)
 
-  this.loadTask();
+    this.loadTask();
+  }
+
+  changeList($event: MouseEvent, param: string) {
+    this.taskIsClosed = param;
+    if (param == 'all task') {
+      this.searchParams.done = null;
+    }
+    if (param == 'active task') {
+      this.searchParams.done = false;
+    }
+    if (param == 'closed task') {
+      this.searchParams.done = true;
+    }
+    this.loadTask();
   }
 }

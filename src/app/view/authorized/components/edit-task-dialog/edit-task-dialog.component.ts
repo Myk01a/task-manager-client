@@ -18,10 +18,10 @@ export class EditTaskDialogComponent implements OnInit {
     private taskEditService: TaskEditService) { }
 
   ngOnInit() {
-    this.taskService.getTaskById(1).subscribe(data => {
-      this.task = data;
-      console.log(data);
-    });
+    // this.taskService.getTaskById(1).subscribe(data => {
+    //   this.task = data;
+    //   console.log(data);
+    // });
   }
 
 

@@ -48,9 +48,12 @@ export interface Comment {
   commentAttachment: [CommentAttachment]
 }
 
-export interface TaskAttachment {
+export interface Attachment{
   id: number,
-  url: string
+  fileName: string,
+  fileDownloadUri: string,
+  fileType: string,
+  size: number
 }
 
 export interface Task {
@@ -65,21 +68,10 @@ export interface Task {
   executor?: User,
   observer?: [User],
   comment?: [Comment],
-  taskAttachment?: [TaskAttachment]
+  attachment?: [Attachment]
   price?: number;
   done?: boolean;
 }
-
-export interface ShortUser {
-  id: number,
-  username: string;
-}
-
-// export interface Params {
-//   pageNumber?: number,
-//   pageSize?: number,
-//   sortBy?: string
-// }
 
 export interface SearchParam {
   title: string,

@@ -29,4 +29,7 @@ export class TaskService {
     return this.http.post<Page>(environment.apiUrl + "/task/search", searchParam)
   }
 
+  public updateTask(task: Task): Observable<Task> {
+    return this.http.put<Task>(environment.apiUrl + "/task/update", task)
+  }
 }

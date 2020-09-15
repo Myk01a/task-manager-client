@@ -1,7 +1,21 @@
-<div class="form-group mx-sm-3 mb-2">
-  <button (click)="newTaskModal()" data-toggle="modal" data-target="#exampleModal"
-          type="button" class="btn btn-outline-primary">New task
-  </button>
+<div class="row">
+  <div class="form-group mx-sm-3 mb-2">
+    <button (click)="newTaskModal()" data-toggle="modal" data-target="#exampleModal"
+            type="button" class="btn btn-outline-primary">New task
+    </button>
+  </div>
+  <div class="dropdown">
+    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+      {{taskIsClosed}}
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a (click)="changeList($event, 'all task')" class="dropdown-item">all task</a>
+      <a (click)="changeList($event, 'active task')" class="dropdown-item">active task</a>
+      <a (click)="changeList($event, 'closed task')" class="dropdown-item">closed task</a>
+    </div>
+  </div>
 </div>
 <p-table styleClass="ui-table-tasks"
          #dt
@@ -110,8 +124,11 @@
 </p-table>
 
 <p-dialog position="top" [(visible)]="contextMenuVisible" [style]="{width: '15vw'}" [baseZIndex]="10000">
-  <ul class="list-group list-group-flush">
-    <li (click)="closeTask()" class="list-group-item  list-group-item-action">close task
+  <ul *ngIf="selectedTask" class="list-group list-group-flush">
+    <li *ngIf="selectedTask.done == false" (click)="closeTask()" class="list-group-item  list-group-item-action">close
+      task
+    <li *ngIf="selectedTask.done == true" (click)="taskReOpen()" class="list-group-item  list-group-item-action">re-open
+      task
     <li (click)="editTask()" class="list-group-item  list-group-item-action">edit task
     <li (click)="viewTask()" class="list-group-item  list-group-item-action">view task
     </li>

@@ -1,3 +1,131 @@
-<p>
-  view-task works!
-</p>
+<div *ngIf="task" class="row">
+  <div class="col-md-8">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="col-md-2">{{task.title}}</div>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p [innerHTML]=task.description></p>
+              <footer
+                class="blockquote-footer">
+                <div>
+            <span *ngFor="let attachment of task.attachment">
+              <button type="button" class="btn btn-link"
+                      (click)="download(attachment)">
+                {{attachment.fileName}}&#8195;&#8195;&#8195;&#8195;</button>
+            </span>
+                </div>
+              </footer>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <div class="row" *ngIf="task.done == false">
+          <div class="col text-left align-middle">Task is Active</div>
+          <div class="col pull-right">
+            <button (click)="taskClose()" type="button" class="btn btn-outline-secondary pull-right">close</button>
+          </div>
+        </div>
+        <div class="row" *ngIf="task.done == true">
+          <div class="col text-left align-middle">Task is Closed</div>
+          <div class="col pull-right">
+            <button (click)="taskReOpen()" type="button" class="btn btn-outline-secondary pull-right">re-open</button>
+          </div>
+        </div>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div class="border-bottom">
+            <small class="text-muted">Task owner: </small>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <img *ngIf="profileOwner" src="{{profileOwner.avatar}}" class="ava rounded-circle z-depth-0">
+              <img *ngIf="!profileOwner" src="{{defaultAvatar}}" class="ava rounded-circle z-depth-0"
+                   alt="avatar image">
+            </div>
+            <div class="col ">
+              <h5 class="pt-3 text-muted">{{task.owner.username}}</h5>
+            </div>
+            <div class="col ">
+              <button type="button" class="btn btn-outline-secondary mt-2 pull-right">change</button>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="border-bottom">
+            <small class="text-muted">Task executor: </small>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <img *ngIf="profileExecutor" src="{{profileExecutor.avatar}}" class="ava rounded-circle z-depth-0">
+              <img *ngIf="!profileExecutor" src="{{defaultAvatar}}" class="ava rounded-circle z-depth-0"
+                   alt="avatar image">
+            </div>
+            <div class="col ">
+              <h5 class="pt-3 text-muted">{{task.executor.username}}</h5>
+            </div>
+            <div class="col ">
+              <button type="button" class="btn btn-outline-secondary mt-2 pull-right">change</button>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="border-bottom">
+            <small class="text-muted">Task observers: </small>
+          </div>
+          <div class="row">
+            <div class="col-md-2" *ngFor="let observ of profileObservers ">
+              <img *ngIf="profileObservers" src="{{observ.avatar}}" class="ava rounded-circle z-depth-0">
+              <img *ngIf="!profileObservers" src="{{defaultAvatar}}" class="ava rounded-circle z-depth-0"
+                   alt="avatar image">
+            </div>
+            <div class="col ">
+              <!--              <h5 class="pt-3 text-muted" *ngFor="let observ of task.observer ">{{observ.username}}</h5>-->
+            </div>
+            <div class="col ">
+              <button type="button" class="btn btn-outline-secondary mt-2 pull-right">change</button>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="border-bottom">
+            <small class="text-muted">Task created: </small>
+          </div>
+          <div class="mt-1">
+            <h5 class="text-muted">{{task.creation | date: "longDate" }}</h5>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="border-bottom">
+            <small class="text-muted">Task deadline: </small>
+          </div>
+          <div class="row">
+            <div class="col mt-1">
+              <h5 class="text-muted">{{task.deadline | date: "longDate" }}</h5>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-outline-secondary btn-sm mt-1 pull-right">change</button>
+            </div>
+          </div>
+        </li>
+        <li *ngIf="task.completed" class="list-group-item">
+          <div class="border-bottom">
+            <small class="text-muted">Task completed: </small>
+          </div>
+          <div>
+            <h5 class="text-muted">{{task.completed | date: "longDate" }}</h5>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
