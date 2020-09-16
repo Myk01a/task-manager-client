@@ -72,6 +72,7 @@ export class ListTaskComponent implements OnInit {
       {width: '14%'},
       {width: '14%'}
     ];
+
   }
 
   private loadTask() {
@@ -120,7 +121,6 @@ export class ListTaskComponent implements OnInit {
 
   goToUrlTaskWithId(url, id) {
     this.contextMenuVisible = false;
-    // this.table.selection = null;
     this.router.navigate([url, id]).then((e) => {
       if (e) {
         console.log("Navigation is successful!");

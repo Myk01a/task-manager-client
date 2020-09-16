@@ -78,8 +78,10 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-task let-rowData>
-    <tr class="ui-selectable-row" [pSelectableRowDblClick]="rowData">
-      <!--        [pSelectableRow]="rowData"-->
+    <tr
+      [style.opacity]="task.done==true?'0.4':'1'"
+      [style.text-decoration]="task.done==true?'line-through':'none'"
+        class="ui-selectable-row" [pSelectableRowDblClick]="rowData">
       <td>
         <span class="ui-column-id col-lg-5">{{task.id}}</span>
       </td>
