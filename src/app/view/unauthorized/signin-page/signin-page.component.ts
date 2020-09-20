@@ -51,6 +51,7 @@ export class SigninPageComponent implements OnInit {
 
       this.submitted = false
     }, error => {
+      this.submitted = true;
       this.form.reset();
     })
   }

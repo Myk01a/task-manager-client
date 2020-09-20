@@ -12,8 +12,8 @@ export class ProfileService {
   constructor(private http: HttpClient) {
   }
 
-  public getProfiles(): Observable<any> {
-    return this.http.get(environment.apiUrl + "/user/all");
+  public getAllProfiles(): Observable<any> {
+    return this.http.get(environment.apiUrl + "/profile/all");
   }
 
   public getProfile(id): Observable<any> {
@@ -25,7 +25,7 @@ export class ProfileService {
   }
 
   public deleteProfile(id): Observable<any> {
-    return this.http.delete(environment.apiUrl + "/user/id/" + id);
+    return this.http.delete(environment.apiUrl + "/profile/id/" + id);
   }
 
   public updateProfile(profile): Observable<Profile> {

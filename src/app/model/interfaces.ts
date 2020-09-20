@@ -1,3 +1,4 @@
+
 export interface UserAuth {
   username: string
   password: string
@@ -30,22 +31,15 @@ export interface Profile {
   idUser: User
 }
 
-// export enum Roles {
-//   ROLE_ADMIN,
-//   ROLE_CLIENT,
-// }
-
-export interface CommentAttachment {
-  id: number,
-  url: string
-}
 
 export interface Comment {
-  id: number,
-  message: string,
-  creationTime: Date,
+  id?: number,
+  message?: string,
+  creationTime?: Date,
   commentator: User,
-  commentAttachment: [CommentAttachment]
+  commentTask: Task,
+  commentatorProf?: Profile,
+  commentAttachment?: [Attachment]
 }
 
 export interface Attachment{
@@ -116,3 +110,4 @@ export interface Page
   last: boolean,
   empty: boolean
 }
+

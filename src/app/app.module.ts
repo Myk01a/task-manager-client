@@ -13,8 +13,9 @@ import {SharedModule} from "./view/unauthorized/shared.module";
 import {TokenInterceptor} from "./services/token.interceptor";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {QuillModule} from "ngx-quill";
-import { UserObserversComponent } from './view/authorized/components/user-observers/user-observers.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -34,7 +35,9 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
     FormsModule,
     ReactiveFormsModule,
     QuillModule.forRoot(),
-    NgMultiSelectDropDownModule
+    PickerModule,
+    NgMultiSelectDropDownModule,
+    FontAwesomeModule
   ],
   providers: [
     AuthService,

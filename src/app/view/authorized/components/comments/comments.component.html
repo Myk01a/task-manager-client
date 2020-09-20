@@ -1,0 +1,89 @@
+<div>
+  <div>
+<!--    list comments 2-->
+    <div *ngIf="profileCommentator" class="comments-wrapper">
+      <div id="comments" class="mt-1">
+        <p class="ml-3 text-muted" >{{task.comment.length}} Comments</p>
+        <ul  class="medias px-sm-0">
+          <div *ngFor="let comment of task.comment">
+<!--            commentator-->
+            <li id="comment-12" *ngIf="comment.commentatorProf.idUserProfile === profileCommentator.idUserProfile"
+                class="comment byuser comment-author-aymene bypostauthor even thread-even depth-1 has-children bubble bubble-primary list-unstyled xxx">
+              <div class="wrapper">
+                <div class="avatar">
+                  <a data-toggle="tooltip" data-placement="left" data-html="true" title="" href=""
+                     class="media-object float-left" data-original-title="aymene">
+                    <img *ngIf="comment.commentatorProf" src="{{comment.commentatorProf.avatar}}"
+                         class="avatar avatar-40 photo comment_avatar rounded-circle" height="40" width="40"> </a>
+                </div>
+                <div id="div-comment-12" class="comment-self left">
+                  <p class="messenger-bulle hoverable">{{comment.message}}<span
+                    class="meta">{{comment.creationTime | date:'medium'}}</span>
+                  </p>
+                  <div class="btn btn-rounded btn-outline-secondary">
+                    <fa-icon [icon]="faUndo"></fa-icon></div>
+                </div>
+              </div>
+            </li>
+<!--            end commentator-->
+<!--            other-->
+            <ul class="children" *ngIf="profileCommentator.idUserProfile != comment.commentatorProf.idUserProfile">
+              <li id="comment-13"
+                  class="comment byuser comment-author-aymene bypostauthor odd alt depth-2  bubble bubble-secondary list-unstyled yyy">
+                <div class="wrapper">
+                  <div class="avatar">
+                    <a data-toggle="tooltip" data-placement="right" data-html="true" title="" href=""
+                       class="media-object float-left" data-original-title="aymene">
+                      <img alt="" *ngIf="comment.commentatorProf" src="{{comment.commentatorProf.avatar}}"
+                           class="avatar avatar-40 photo comment_avatar rounded-circle" height="40" width="40"> </a>
+                  </div>
+                  <div id="div-comment-13" class="comment-self right">
+<!--                    <div class="reply btn btn-rounded btn-secondary text-muted waves-effect waves-light"><i-->
+<!--                      class="icon-action-redo"></i></div>-->
+                    <p class="messenger-bulle hoverable">{{comment.message}}<span
+                      class="meta">{{comment.creationTime | date:'medium'}}</span>
+                    </p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+<!--            end other-->
+          </div>
+        </ul>
+      </div>
+    </div>
+<!--   end list comments 2-->
+
+    <div class="col-md-12 p-3">
+      <form class="form-inline" [formGroup]="formComment" (ngSubmit)="submit()">
+        <div class="input-group flex-fill">
+          <div class="col-md-1 mr-3">
+            <img *ngIf="profileCommentator" src="{{profileCommentator.avatar}}" class="ava rounded-circle z-depth-0">
+            <img *ngIf="!profileCommentator" src="{{defaultAvatar}}" class="ava rounded-circle z-depth-0"
+                 alt="avatar image">
+          </div>
+          <div class="input-group flex-fill ">
+            <input (blur)="onBlur()" (focus)="onFocus()"
+                   name="message" [(ngModel)]="message"
+                   type="text" class="input-lg form-control "
+                   placeholder="comment" formControlName="message">
+            <div class="input-group-prepend mr-4">
+              <button (click)="toggleEmojiPicker()"
+                      type="button" class="btn btn-outline-secondary "
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <fa-icon [icon]="faSmile"></fa-icon>
+              </button>
+              <div class="dropdown-menu">
+                <emoji-mart class="emoji-mart" set="{{set}}" *ngIf="showEmojiPicker"
+                            (emojiSelect)="addEmoji($event)" title="Pick your emoji…">
+                </emoji-mart>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-outline-secondary">Send comment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

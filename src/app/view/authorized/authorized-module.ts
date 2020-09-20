@@ -33,6 +33,9 @@ import {AvatarCropperComponent} from "./components/avatar-cropper/avatar-cropper
 import {QuillModule} from "ngx-quill";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import {UserObserversComponent} from "./components/user-observers/user-observers.component";
+import {CommentsComponent} from "./components/comments/comments.component";
+import {PickerModule} from "@ctrl/ngx-emoji-mart";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 
 @NgModule({
@@ -48,7 +51,8 @@ import {UserObserversComponent} from "./components/user-observers/user-observers
     AvatarComponent,
     DragDropDirective,
     UserObserversComponent,
-    AvatarCropperComponent
+    AvatarCropperComponent,
+    CommentsComponent
   ],
   imports: [
     CommonModule,
@@ -78,7 +82,9 @@ import {UserObserversComponent} from "./components/user-observers/user-observers
     ImageCropperModule,
     ReactiveFormsModule,
     QuillModule,
-    NgMultiSelectDropDownModule.forRoot()
+    FontAwesomeModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    PickerModule
   ],
   exports: [
     RouterModule,
