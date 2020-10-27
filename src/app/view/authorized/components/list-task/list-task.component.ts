@@ -94,6 +94,7 @@ export class ListTaskComponent implements OnInit {
   closeTask() {
     this.selectedTask.done = true;
     this.selectedTask.completed = new Date();
+    console.log(this.selectedTask);
     this.taskService.updateTask(this.selectedTask).subscribe(result => console.log(result));
     this.contextMenuVisible = false;
     this.table.selection = null;

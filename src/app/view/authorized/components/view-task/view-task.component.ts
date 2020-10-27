@@ -62,6 +62,7 @@ export class ViewTaskComponent implements OnInit {
   taskClose() {
     this.task.done = true;
     this.task.completed = new Date();
+    console.log(this.task)
     this.taskService.updateTask(this.task).subscribe(result => console.log(result));
   }
 

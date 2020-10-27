@@ -6,6 +6,7 @@ import {CommentService} from "../../../../services/comment.service";
 import {DatePipe} from "@angular/common";
 import {ProfileService} from "../../../../services/profile.service";
 import {faEdit, faSmileWink} from "@fortawesome/free-regular-svg-icons";
+import {WebSocketService} from "../../../../services/web-socket.service";
 
 @Component({
   selector: 'app-comments',
@@ -13,7 +14,7 @@ import {faEdit, faSmileWink} from "@fortawesome/free-regular-svg-icons";
   styleUrls: ['./comments.component.scss']
 })
 export class CommentsComponent implements OnInit {
-  private taskId:string;
+  private taskId: string;
   profileCommentator: Profile;
   @Input()
   task: Task;
@@ -35,32 +36,35 @@ export class CommentsComponent implements OnInit {
   ]
   set = 'apple';
   formComment: FormGroup;
+
   constructor(
+    private sw: WebSocketService,
     private route: ActivatedRoute,
     private profileService: ProfileService,
     private commentService: CommentService
-  ){
+  ) {
   }
 
   ngOnInit(): void {
     this.route.url.subscribe(data => {
       this.taskId = (data[1].path)
-    },error =>{}, ()=>{
+    }, error => {
+    }, () => {
     });
-    this.profileService.getProfile(localStorage.getItem('userId')).subscribe(data =>{
+    this.profileService.getProfile(localStorage.getItem('userId')).subscribe(data => {
       this.profileCommentator = data;
       console.log(data)
     });
 
     this.formComment = new FormGroup({
-      "message" : new FormControl(''),
+      "message": new FormControl(''),
       "creationTime": new FormControl(''),
-      "commentator" : new FormGroup({
-        "id" : new FormControl('')
+      "commentator": new FormGroup({
+        "id": new FormControl('')
       }),
       "commentatorProf": new FormGroup({
         "idUserProfile": new FormControl(''),
-        "avatar":new FormControl('')
+        "avatar": new FormControl('')
       }),
       "commentTask": new FormGroup({
         "id": new FormControl('')
@@ -76,7 +80,7 @@ export class CommentsComponent implements OnInit {
 
   addEmoji(event) {
     console.log(this.message)
-    const { message } = this;
+    const {message} = this;
     console.log(message);
     console.log(`${event.emoji.native}`)
     const text = `${message}${event.emoji.native}`;
@@ -89,23 +93,41 @@ export class CommentsComponent implements OnInit {
     console.log('focus');
     // this.showEmojiPicker = false;
   }
+
   onBlur() {
     console.log('onblur')
   }
 
   submit() {
-    this.formComment.patchValue({commentator:{id:this.profileCommentator.idUserProfile}});
-    this.formComment.patchValue({commentatorProf:{idUserProfile:this.profileCommentator.idUserProfile}});
-    this.formComment.patchValue({commentTask:{id:this.taskId}});
-    this.formComment.patchValue({creationTime: new DatePipe('en-US')
-        .transform(new Date(), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')});
+    this.fillData();
     console.log(this.formComment.value);
-    this.commentService.createComment(this.formComment.value).subscribe(data =>{
+    this.commentService.createComment(this.formComment.value).subscribe(data => {
       console.log(data)
     });
-    this.formComment.patchValue({commentatorProf:{avatar:this.profileCommentator.avatar}});
+    this.formComment.patchValue({commentatorProf: {avatar: this.profileCommentator.avatar}});
     this.task.comment.push(this.formComment.value);
+    this.sendNotificationByWebSocket();
     console.log(this.formComment.value);
     this.formComment.reset();
+  }
+
+  private sendNotificationByWebSocket() {
+    this.sw._send({
+      taskId: this.task.id,
+      message: this.formComment.value.message,
+      commentatorId: this.formComment.value.commentator.id,
+      ownerId: this.task.owner.id,
+      executorId: this.task.executor.id
+    });
+  }
+
+  private fillData() {
+    this.formComment.patchValue({commentator: {id: this.profileCommentator.idUserProfile}});
+    this.formComment.patchValue({commentatorProf: {idUserProfile: this.profileCommentator.idUserProfile}});
+    this.formComment.patchValue({commentTask: {id: this.taskId}});
+    this.formComment.patchValue({
+      creationTime: new DatePipe('en-US')
+        .transform(new Date(), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')
+    });
   }
 }
